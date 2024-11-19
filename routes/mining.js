@@ -29,11 +29,9 @@ router.post('/', async (req, res, next) => {
             return res.status(400).json({ msg: "Sorry, No minig going on. Already claimed" })
         }
 
-        // Calculate total hours for current date and last mining date
         const currentTotalHours = currentDate.getHours() + currentDate.getMinutes() / 60;
         const lastMiningTotalHours = lastMiningDate.getHours() + lastMiningDate.getMinutes() / 60;
 
-        // Check if mining period has passed
         const hoursPassed = (currentTotalHours - lastMiningTotalHours + 24) % 24;
         if (user.lastMining && !user.claimed && hoursPassed < MINE_HOURS) {
             return res.status(400).json({ err: "Sorry, Mining still going on 🤭" })
